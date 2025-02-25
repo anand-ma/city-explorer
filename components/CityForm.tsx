@@ -11,21 +11,24 @@ export default function CityForm() {
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
+    setIsLoading(true)
     e.preventDefault()
-    if (city.trim()) {
-      setIsLoading(true)
+    if (!city.trim()) return;
+    try {
       const encodedCity = encodeURIComponent(city.trim())
-      await router.push(`/attractions/${encodedCity}`)
+      router.push(`/attractions/${encodedCity}`)
+    } catch (error) {
+      console.error('Navigation error:', error)
       setIsLoading(false)
     }
   }
 
   return (
-    <Card className="w-full max-w-md shadow-lg border-2 border-green-200 dark:border-green-800 bg-white dark:bg-gray-900 transition-shadow hover:shadow-xl">
+    <Card className="w-full max-w-md shadow-lg border-2 border-green-500 bg-gray-900 transition-shadow hover:shadow-xl hover:shadow-purple-900/20">
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl font-bold text-center">City Explorer</CardTitle>
-        <CardDescription className="text-center">
+        <CardTitle className="text-2xl font-bold text-center text-green-400">City Explorer</CardTitle>
+        <CardDescription className="text-center text-purple-200">
           Discover amazing attractions in your favorite cities
         </CardDescription>
       </CardHeader>
@@ -36,13 +39,13 @@ export default function CityForm() {
             value={city}
             onChange={(e) => setCity(e.target.value)}
             placeholder="Enter city name"
-            className="w-full border-green-200 dark:border-green-800 focus:ring-green-500"
+            className="w-full bg-gray-800 border-green-600 text-purple-50 placeholder-purple-300 focus:ring-green-500 focus:border-purple-400"
             required
             disabled={isLoading}
           />
           <Button 
             type="submit"
-            className="w-full bg-green-600 hover:bg-green-700 text-white"
+            className="w-full bg-purple-700 hover:bg-purple-600 text-white border border-green-500"
             variant="default"
             disabled={isLoading}
           >

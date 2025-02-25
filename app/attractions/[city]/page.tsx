@@ -56,16 +56,18 @@ export default async function AttractionsPage({ params }: { params: { city: stri
   const attractions = await getAttractions(city);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-start p-8 bg-background">
-      <h1 className="text-3xl font-semibold mb-6 text-text">Exploring {city}</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+    <main className="flex min-h-screen flex-col items-center justify-start p-8 bg-gray-950">
+      <h1 className="text-3xl font-semibold mb-6 text-green-400">Exploring {city}</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl">
         {attractions.map((attraction, index) => (
           <AttractionCard key={index} name={attraction.name} description={attraction.description} />
         ))}
       </div>
       <Link
         href="/"
-        className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
+        className="px-4 py-2 mt-8 bg-purple-700 text-white rounded-md hover:bg-purple-600 
+          border border-green-500 focus:outline-none focus:ring-2 focus:ring-green-400 
+          transition-colors"
       >
         Explore Another City
       </Link>
