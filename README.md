@@ -1,5 +1,21 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Commands
+```js
+npx create-next-app@latest city-explorer
+
+npx shadcn@latest add "https://v0.dev/chat/b/...." // generate this link in V0.dev
+
+// use Cursor Chat / VSCode Co-Pilot to use natural language prompt to wire open-ai api (or equivalent)
+
+// iterate to code flow/theme/fix error/cleanup code
+
+// Upload to Github
+
+// Login to Vercel -> integrate github -> create project -> import uploaded github repository
+
+// Deploy
+```
 ## App Link
 
 https://city-explorer-nextjs.vercel.app
@@ -9,6 +25,7 @@ https://city-explorer-nextjs.vercel.app
 ### 🚀 Frontend
 - **Framework:** [![NextJS](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org)
 - **UI Components:** [![Shadcn](https://img.shields.io/badge/Shadcn-000000?style=for-the-badge&logo=shadcn&logoColor=white)](https://ui.shadcn.com/)
+- **Styling:** [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
 - **Design Tool:** [![V0.dev](https://img.shields.io/badge/V0.dev-FF4785?style=for-the-badge&logo=v0&logoColor=white)](https://v0.dev/)
 
 ### 🤖 AI Development
