@@ -58,7 +58,7 @@ module.exports = {
         sm: "calc(var(--radius) - 4px)",
       },
       animation: {
-        'spin': 'spin 1s linear infinite',
+        spin: 'spin 1s linear infinite',
       },
       keyframes: {
         spin: {
@@ -68,6 +68,6 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [import("tailwindcss-animate")]
 }
 

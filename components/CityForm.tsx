@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Spinner } from "@/components/ui/spinner"
 
 export default function CityForm() {
   const [city, setCity] = useState("")
@@ -47,14 +46,7 @@ export default function CityForm() {
             variant="default"
             disabled={isLoading}
           >
-            {isLoading ? (
-              <div className="flex items-center justify-center gap-2">
-                <Spinner size="sm" color="green" />
-                <span>Loading...</span>
-              </div>
-            ) : (
-              'Explore Attractions'
-            )}
+            {isLoading ? 'Loading...' : 'Explore Attractions'}
           </Button>
         </form>
       </CardContent>

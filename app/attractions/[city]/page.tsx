@@ -52,7 +52,7 @@ const getAttractions = cache(async (city: string): Promise<Array<{ name: string;
 
 // Update the page component to be async
 export default async function AttractionsPage({ params }: { params: { city: string } }) {
-  const city = decodeURIComponent(params.city);
+  const city = decodeURIComponent(params.city).toUpperCase();
   const attractions = await getAttractions(city);
 
   return (
