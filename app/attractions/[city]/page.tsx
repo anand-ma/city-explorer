@@ -1,83 +1,59 @@
 import Link from "next/link"
 import { AttractionCard } from "@/components/AttractionCard"
+import OpenAI from 'openai';
+import { cache } from 'react';
 
-// Updated mock function to include descriptions
-function getAttractions(city: string): Array<{ name: string; description: string }> {
-  const attractions = {
-    "new york": [
-      {
-        name: "Statue of Liberty",
-        description:
-          "Iconic symbol of freedom, a colossal neoclassical sculpture on Liberty Island. A gift from France to the United States.",
-      },
-      {
-        name: "Central Park",
-        description:
-          "Urban oasis spanning 843 acres in the heart of Manhattan. Features lakes, walking paths, and various attractions.",
-      },
-      {
-        name: "Empire State Building",
-        description:
-          "102-story Art Deco skyscraper in Midtown Manhattan. Offers panoramic views from its observation deck.",
-      },
-    ],
-    paris: [
-      {
-        name: "Eiffel Tower",
-        description:
-          "Wrought-iron lattice tower on the Champ de Mars. Symbol of Paris and one of the world's most recognizable structures.",
-      },
-      {
-        name: "Louvre Museum",
-        description:
-          "World's largest art museum and home to many famous works, including the Mona Lisa. Housed in a historic palace.",
-      },
-      {
-        name: "Notre-Dame Cathedral",
-        description:
-          "Medieval Catholic cathedral known for its French Gothic architecture. Currently under restoration after 2019 fire.",
-      },
-    ],
-    tokyo: [
-      {
-        name: "Tokyo Skytree",
-        description:
-          "Tallest tower in the world and the second tallest structure. Offers observation decks with stunning city views.",
-      },
-      {
-        name: "Senso-ji Temple",
-        description: "Ancient Buddhist temple in Asakusa. Tokyo's oldest temple, and one of its most significant.",
-      },
-      {
-        name: "Meiji Shrine",
-        description:
-          "Shinto shrine dedicated to Emperor Meiji and Empress Shoken. Set in a tranquil forest in the heart of Tokyo.",
-      },
-    ],
-    london: [
-      {
-        name: "Big Ben",
-        description:
-          "Iconic clock tower at the north end of the Houses of Parliament. One of London's most recognizable landmarks.",
-      },
-      {
-        name: "Tower Bridge",
-        description:
-          "Combined bascule and suspension bridge built in the late 19th century. Crosses the River Thames close to the Tower of London.",
-      },
-      {
-        name: "Buckingham Palace",
-        description:
-          "London residence and administrative headquarters of the monarch of the United Kingdom. Open to visitors during summer.",
-      },
-    ],
+// Create OpenAI client
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+
+// Cache the getAttractions function
+const getAttractions = cache(async (city: string): Promise<Array<{ name: string; description: string }>> => {
+  try {
+    const prompt = `Generate 6 major tourist attractions for ${city}. Return only a JSON array in this exact format, with no additional text or formatting:
+[{"name":"Attraction Name","description":"Brief description under 150 characters"}]`;
+
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [
+        {
+          role: "system",
+          content: "You are a helpful assistant that returns only valid JSON arrays containing tourist attractions."
+        },
+        {
+          role: "user", 
+          content: prompt
+        }
+      ],
+      temperature: 0.7,
+      max_tokens: 1000,
+    });
+
+    const content = response.choices[0].message.content?.trim();
+    if (!content) {
+      throw new Error('No content received from OpenAI');
+    }
+
+    // Parse the JSON response
+    try {
+      const attractions = JSON.parse(content);
+      return attractions;
+    } catch (parseError) {
+      console.error('JSON parsing error:', parseError);
+      throw new Error('Invalid JSON response from OpenAI');
+    }
+
+  } catch (error) {
+    console.error('Error fetching attractions:', error);
+    return [{ name: "Error loading attractions", description: "Please try again later" }];
   }
-  return attractions[city.toLowerCase()] || [{ name: "No attractions found", description: "Try another city" }]
-}
+});
 
-export default function AttractionsPage({ params }: { params: { city: string } }) {
-  const city = decodeURIComponent(params.city)
-  const attractions = getAttractions(city)
+// Update the page component to be async
+export default async function AttractionsPage({ params }: { params: { city: string } }) {
+  const city = decodeURIComponent(params.city);
+  const attractions = await getAttractions(city);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-start p-8 bg-background">
