@@ -27,7 +27,7 @@ export default function CityForm() {
   return (
     <Card className="w-full max-w-md shadow-lg border-2 border-green-500 bg-gray-900 transition-shadow hover:shadow-xl hover:shadow-purple-900/20">
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl font-bold text-center text-green-400">City Explorer</CardTitle>
+        <CardTitle className="text-2xl font-bold text-center text-green-400">Find City Attractions</CardTitle>
         <CardDescription className="text-center text-purple-200">
           Discover amazing attractions in your favorite cities
         </CardDescription>
